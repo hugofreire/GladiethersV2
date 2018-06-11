@@ -1,5 +1,5 @@
 # Gladiethers 2.0 is now available
-with Faster & Cheaper Transactions
+Faster & Cheaper Transactions
 
 # New Features:
 - Lucky Points! 🎰 Earn lucky points when you lose a fight.
