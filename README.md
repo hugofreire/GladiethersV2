@@ -7,7 +7,7 @@ with Faster & Cheaper Transactions
 - You can reduce the time to withdraw winnings by one hour by spending 250 lucky points;
 
 # New KingFounder 👑
-- The arena opens at 23:59 day 11 and the most powerfull hero at that time becomes the king founder automatically and receives 1% lifetime dividends of each dead gladiether.
+- The arena opens at 23:59 day 12 and the most powerfull hero at that time becomes the king founder automatically and receives 1% lifetime dividends of each dead gladiether.
 
 Limitations:
 - Contracts can't play
