@@ -45,7 +45,7 @@ contract Gladiethers
 
             if(queue[gladiatorToQueuePosition[msg.sender]] == msg.sender){
                 gladiatorToPower[msg.sender] += msg.value;
-                checkKingWeek(msg.sender);
+                checkKingFounder(msg.sender);
                 return false;
             }
         }
@@ -60,11 +60,11 @@ contract Gladiethers
         queue.push(gladiator);
         gladiatorToQueuePosition[gladiator] = queue.length - 1;
         gladiatorToPower[gladiator] += msg.value;
-        
+        checkKingFounder(gladiator);
         
     }
     
-    function checkKingWeek(address gladiator){
+    function checkKingFounder(address gladiator) internal{
         if(gladiatorToPower[gladiator] > gladiatorToPower[kingGladiatorFounder] && now < initGameAt){
             kingGladiatorFounder = gladiator;
         }
