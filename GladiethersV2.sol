@@ -234,10 +234,10 @@ contract Gladiethers
 
                 // gladiator have to be removed from areana if the power is less then 0.01 eth
                 if(gladiatorToPower[withdrawalAccount] < 10 finney){
-                    if(msg.sender == kingGladiator){
-                        selectNewKing();
-                    }
                     remove(msg.sender);
+                }
+                if(msg.sender == kingGladiator){
+                    selectNewKing();
                 }
 
             }else{
