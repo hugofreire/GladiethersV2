@@ -110,7 +110,9 @@ contract Gladiethers
     
     function reduceTime() public{ // Reduce 1 hour and uses 250 luckypoints
         
-        require(gladiatorToLuckyPoints[msg.sender] >= 250 && tx.origin == msg.sender ); 
+        require(gladiatorToLuckyPoints[msg.sender] >= 250 && tx.origin == msg.sender && getGladiatorPower(msg.sender) >= 10 finney 
+        && SafeMath.sub(gladiatorToCooldown[msg.sender]- 60 minutes,now) >= 60 minutes ); // 1 hour Cap
+        
         gladiatorToLuckyPoints[msg.sender] = SafeMath.sub(gladiatorToLuckyPoints[msg.sender],250);
         gladiatorToCooldown[msg.sender] = SafeMath.sub(gladiatorToCooldown[msg.sender],60 minutes);
         
@@ -124,7 +126,7 @@ contract Gladiethers
         require(gladiatorToLuckyPoints[msg.sender] >= 250 && tx.origin == msg.sender && kingGladiator != address(0) && msg.sender != kingGladiator); 
         
         gladiatorToLuckyPoints[msg.sender] = SafeMath.sub(gladiatorToLuckyPoints[msg.sender],250);
-        
+        remove(msg.sender); // removes the atacker
         fight(kingGladiator);
         
     }
@@ -197,7 +199,7 @@ contract Gladiethers
         
             kingGladiator.transfer(SafeMath.div(devFee,5)); // gives 1%      (5% dead gladiator / 5 )
             kingGladiatorFounder.transfer(SafeMath.div(devFee,5)); // gives 1%      (5% dead gladiator / 5 )
-            m_OwnerFees = SafeMath.add( m_OwnerFees , SafeMath.mul(SafeMath.sub(devFee,SafeMath.div(devFee,5)),2) ); // 5total - 1king - 1kingfounder  = 3%
+            m_OwnerFees = SafeMath.add( m_OwnerFees , SafeMath.sub(devFee, SafeMath.mul(SafeMath.div(devFee,5) ,2) ) ); // 5 total - 1king - 1kingfounder  = 3%
             
 
     }
@@ -233,7 +235,7 @@ contract Gladiethers
                 // gladiator have to be removed from areana if the power is less then 0.01 eth
                 if(gladiatorToPower[withdrawalAccount] < 10 finney){
                     if(msg.sender == kingGladiator){
-                        kingGladiator = address(0);
+                        selectNewKing();
                     }
                     remove(msg.sender);
                 }
@@ -251,6 +253,21 @@ contract Gladiethers
 
 
         return true;
+    }
+    
+    function selectNewKing(){
+        
+        address newKing = address(0);
+        uint256 newKingPower=0;
+
+        for(uint i;i<queue.length;i++) {
+            if(getGladiatorPower(queue[i]) > newKingPower){
+                newKing = queue[i];
+                newKingPower = getGladiatorPower(queue[i]);
+            }
+        }
+        
+        kingGladiator = newKing;
     }
     
      // The upper bound of the number returns is 2^bits - 1
